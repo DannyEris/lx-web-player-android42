@@ -19,15 +19,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          cmdline-tools-version: 12266719
-
-      - name: Accept Licenses & Install Build-Tools
+      - name: Accept Licenses & Install Android SDK
         run: |
-          yes | sdkmanager --licenses || true
-          sdkmanager "platforms;android-30" "build-tools;30.0.3"
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-30" "build-tools;30.0.3" "platform-tools"
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
