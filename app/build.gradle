@@ -1,19 +1,27 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+}
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    namespace 'com.lxmusic.player'
+    compileSdk 30
 
     defaultConfig {
-        applicationId "com.lxmusic.syncwebplayer"
-        minSdkVersion 17
-        targetSdkVersion 22
+        applicationId "com.lxmusic.player"
+        minSdk 17          // 严格兼容安卓 4.2
+        targetSdk 22       // 适配传统权限系统，安装即授予权限，适合老系统
         versionCode 1
         versionName "1.0.0"
 
-        // 确保原生适配 x86 及通用架构
         ndk {
-            abiFilters 'x86', 'armeabi-v7a'
+            abiFilters 'x86' // 针对 Intel Atom 等 x86 芯片平板深度优化
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -21,19 +29,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    
-    lintOptions {
-        abortOnError false
-    }
 }
 
 dependencies {
-    // 纯轻量化容器，无需额外引入重型三方库，保障低版本流畅度
+    // 采用原生纯净组件，减少对现代 AndroidX 复杂库的依赖，提升在 4.2 上的稳定性
 }
